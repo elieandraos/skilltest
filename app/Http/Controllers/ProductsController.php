@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Exception;
-use http\Env\Response;
 use Validator;
 use Storage;
 use App\Product;
@@ -12,6 +11,13 @@ use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
+    protected $storageFile;
+
+    public function __construct()
+    {
+        $this->storageFile = 'data.json';
+    }
+
     public function index()
     {
         return view('products.index');
@@ -40,11 +46,11 @@ class ProductsController extends Controller
         try {
             $data = [];
 
-            if (Storage::exists('data.json')) {
-                $data = json_decode(Storage::get('data.json'));
+            if (Storage::exists($this->storageFile)) {
+                $data = json_decode(Storage::get($this->storageFile));
             }
             $data[] = $product->toArray();
-            Storage::disk('local')->put('data.json', json_encode($data));
+            Storage::disk('local')->put($this->storageFile, json_encode($data));
             return response()->json('saved successfully');
         } catch( Exception $e) {
             throw new $e;
@@ -53,11 +59,11 @@ class ProductsController extends Controller
 
     public function load()
     {
-        if (!Storage::exists('data.json')) {
+        if (!Storage::exists($this->storageFile)) {
             return response()->json([]);
         }
 
-        $data = json_decode(Storage::get('data.json'));
+        $data = json_decode(Storage::get($this->storageFile));
 
         $products = [];
         $totalAllProducts = 0;
