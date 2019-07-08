@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Exception;
+use http\Env\Response;
 use Validator;
 use Storage;
 use App\Product;
@@ -48,5 +49,33 @@ class ProductsController extends Controller
         } catch( Exception $e) {
             throw new $e;
         }
+    }
+
+    public function load()
+    {
+        if (!Storage::exists('data.json')) {
+            return response()->json([]);
+        }
+
+        $data = json_decode(Storage::get('data.json'));
+
+        $products = [];
+        $totalAllProducts = 0;
+        foreach ($data as $item) {
+            $product = new Product();
+            $totalValue = $item->quantity * $item->price;
+
+            $product->fill([
+                'name' => $item->name,
+                'price' => $item->price,
+                'quantity' => $item->quantity,
+                'created_at' => $item->created_at,
+                'total_value' => $totalValue,
+            ]);
+
+            $products[] = $product;
+            $totalAllProducts += $totalValue;
+        }
+        return view('products.data', ['products' => $products, 'totalAllProducts' => $totalAllProducts]);
     }
 }

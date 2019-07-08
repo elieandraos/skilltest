@@ -17,3 +17,4 @@ Route::get('/', function () {
 
 Route::get('products', 'ProductsController@index')->name('products.index');
 Route::post('products/store', 'ProductsController@store')->name('products.store');
+Route::get('products/load-data', 'ProductsController@load')->name('products.load');

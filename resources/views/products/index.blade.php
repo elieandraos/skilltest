@@ -17,9 +17,6 @@
 
                                 <div class="col-md-6">
                                     <input type="text" name="name" id="name" value="" class="form-control"/>
-                                    @if ($errors->has('name'))
-                                        <span class="text-danger">{{ $errors->first('name') }}</span>
-                                    @endif
                                 </div>
                             </div>
 
@@ -28,9 +25,6 @@
 
                                 <div class="col-md-6">
                                     <input type="text" name="quantity" id="quantity" value="" class="form-control"/>
-                                    @if ($errors->has('quantity'))
-                                        <span class="text-danger">{{ $errors->first('quantity') }}</span>
-                                    @endif
                                 </div>
                             </div>
 
@@ -39,14 +33,15 @@
 
                                 <div class="col-md-6">
                                     <input type="text" name="price" id="price" value="" class="form-control"/>
-                                    @if ($errors->has('price'))
-                                        <span class="text-danger">{{ $errors->first('price') }}</span>
-                                    @endif
                                 </div>
                             </div>
 
                             <input type="submit" value="Save" class="btn btn-primary" id="save-product">
                         </form>
+
+                        <div id="data-submitted" class="mt-5">
+
+                        </div>
                     </div>
                 </div>
             </div>

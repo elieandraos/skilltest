@@ -55,13 +55,16 @@
     });
 
     $(document).ready(function(){
+
+        loadData();
+
         $("#save-product").click(function(){
             $.ajax({
                 'type': 'POST',
                 'data': $("#frm-product").serialize(),
                 'url': $("#frm-product").attr('action'),
-                success : function(data) {
-                    alert('ok');
+                success : function() {
+                    loadData();
                 },
                 error : function(xhr, status, error) {
                     alert( $.parseJSON(xhr.responseText).message );
@@ -69,7 +72,20 @@
             });
             return false;
         })
-    })
+    });
+
+    function loadData() {
+        $.ajax({
+            'type': 'GET',
+            'url': '/products/load-data',
+            success : function(data) {
+                $("#data-submitted").html(data);
+            },
+            error : function() {
+                alert( 'Could not load data' );
+            }
+        })
+    }
 </script>
 </body>
 </html>
