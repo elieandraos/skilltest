@@ -64,6 +64,7 @@
                 'data': $("#frm-product").serialize(),
                 'url': $("#frm-product").attr('action'),
                 success : function() {
+                    $("#frm-product").find("input[type=text]").val("");
                     loadData();
                 },
                 error : function(xhr, status, error) {
